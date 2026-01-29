@@ -12,10 +12,12 @@
     "simulate": "tsx src/cli/simulate.ts"
   },
   "dependencies": {
+    "@serwist/next": "^9.5.0",
     "idb": "^8.0.3",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "recharts": "^3.7.0",
     "uuid": "^13.0.0",
     "zustand": "^5.0.10"
   },
