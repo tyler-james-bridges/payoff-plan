@@ -3,3 +3,5 @@ export { calculateMinimumPayment, effectiveMinimum } from './minimum-payment';
 export { orderDebts } from './strategies';
 export { runSimulation } from './simulation';
 export { centsToDisplay, displayToCents, monthsToPayoffDate, formatMonthLabel } from './format';
+export { compareStrategies } from './comparison';
+export { exportPlan, triggerDownload, validateImport } from './export';
