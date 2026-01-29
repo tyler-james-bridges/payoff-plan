@@ -39,7 +39,8 @@ export function DebtInputRow({ debt, onUpdate, onRemove }: DebtInputRowProps) {
           value={debt.apr > 0 ? (debt.apr * 100).toFixed(2) : ''}
           onChange={(e) => {
             const val = parseFloat(e.target.value);
-            onUpdate(debt.id, { apr: isNaN(val) ? 0 : val / 100 });
+            const clamped = Math.max(0, Math.min(100, isNaN(val) ? 0 : val));
+            onUpdate(debt.id, { apr: clamped / 100 });
           }}
           placeholder="21.99"
         />
