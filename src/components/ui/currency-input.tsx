@@ -2,7 +2,7 @@
 
 import { useState, useCallback, type FocusEvent } from 'react';
 import { Input } from './input';
-import { centsToDisplay, displayToCents } from '@/lib/calculations/format';
+import { displayToCents } from '@/lib/calculations/format';
 
 interface CurrencyInputProps {
   value: number; // cents

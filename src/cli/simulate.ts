@@ -1,6 +1,6 @@
 import { readFileSync, existsSync } from 'fs';
 import { runSimulation } from '../lib/calculations/simulation';
-import { centsToDisplay, formatMonthLabel } from '../lib/calculations/format';
+import { centsToDisplay } from '../lib/calculations/format';
 import type { Debt } from '../lib/types';
 
 interface DataFile {

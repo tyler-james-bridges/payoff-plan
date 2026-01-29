@@ -1,4 +1,4 @@
-import type { Debt, SimulationResult, Strategy } from '../types';
+import type { Debt, SimulationResult } from '../types';
 import { runSimulation } from './simulation';
 
 export interface ComparisonResult {

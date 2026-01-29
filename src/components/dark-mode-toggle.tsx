@@ -1,29 +1,34 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { Button } from './ui/button';
 
-export function DarkModeToggle() {
-  const [dark, setDark] = useState(true);
+function getSnapshot() {
+  return localStorage.getItem('payoff-theme') !== 'light';
+}
 
-  useEffect(() => {
-    const stored = localStorage.getItem('payoff-theme');
-    if (stored === 'light') {
-      setDark(false);
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
+function getServerSnapshot() {
+  return true;
+}
+
+function subscribe(callback: () => void) {
+  window.addEventListener('storage', callback);
+  return () => window.removeEventListener('storage', callback);
+}
+
+export function DarkModeToggle() {
+  const dark = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const toggle = () => {
-    const next = !dark;
-    setDark(next);
-    if (next) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('payoff-theme', 'dark');
-    } else {
+    if (dark) {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('payoff-theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('payoff-theme', 'dark');
     }
+    // Trigger re-render via storage event
+    window.dispatchEvent(new Event('storage'));
   };
 
   return (
