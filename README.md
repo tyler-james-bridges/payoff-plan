@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Payoff Plan
+
+Local-first debt payoff planner. See your debt-free date with avalanche strategy, total interest, and monthly breakdown. All data stays in your browser.
+
+## Features
+
+- Add debts with balance, APR, and minimum payment
+- Set extra monthly budget above minimums
+- Avalanche strategy simulation (highest APR first)
+- Monthly breakdown table with interest/principal split
+- Payoff timeline showing when each debt hits $0
+- IndexedDB persistence — data survives browser restarts
+- Claude Code `/payoff` skill for CLI-based debt intake and simulation
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## CLI Simulation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Use the Claude Code `/payoff` skill, or run directly:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Create payoff-plan-data.json with your debts, then:
+npm run simulate
+```
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js 15, TypeScript, Tailwind CSS
+- Zustand for state management
+- IndexedDB (via `idb`) for persistence
+- Static export — deploys anywhere
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
