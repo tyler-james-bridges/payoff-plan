@@ -21,12 +21,12 @@ export async function savePlan(plan: PayoffPlan): Promise<void> {
   try {
     const db = await getDB();
     await db.put(STORE_NAME, plan, PLAN_KEY);
-  } catch {
-    // Fallback to localStorage
+  } catch (err) {
+    console.warn('IndexedDB save failed, falling back to localStorage:', err);
     try {
       localStorage.setItem(LS_KEY, JSON.stringify(plan));
-    } catch {
-      // Storage full or unavailable
+    } catch (lsErr) {
+      console.warn('localStorage save failed:', lsErr);
     }
   }
 }
@@ -36,15 +36,21 @@ export async function loadPlan(): Promise<PayoffPlan | null> {
     const db = await getDB();
     const plan = await db.get(STORE_NAME, PLAN_KEY);
     if (plan) return plan as PayoffPlan;
-  } catch {
-    // Fall through to localStorage
+  } catch (err) {
+    console.warn('IndexedDB load failed, falling back to localStorage:', err);
   }
 
   try {
     const raw = localStorage.getItem(LS_KEY);
-    if (raw) return JSON.parse(raw) as PayoffPlan;
-  } catch {
-    // Nothing saved
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object' && Array.isArray(parsed.debts)) {
+        return parsed as PayoffPlan;
+      }
+      console.warn('localStorage data failed validation, ignoring.');
+    }
+  } catch (err) {
+    console.warn('localStorage load failed:', err);
   }
 
   return null;

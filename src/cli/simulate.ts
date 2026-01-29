@@ -21,7 +21,18 @@ if (!existsSync(dataPath)) {
   process.exit(1);
 }
 
-const data: DataFile = JSON.parse(readFileSync(dataPath, 'utf-8'));
+let data: DataFile;
+try {
+  data = JSON.parse(readFileSync(dataPath, 'utf-8'));
+} catch {
+  console.error('Failed to parse payoff-plan-data.json. Check that it contains valid JSON.');
+  process.exit(1);
+}
+
+if (!data || typeof data !== 'object' || !Array.isArray(data.debts)) {
+  console.error('Invalid data file format. Expected { debts: [...], extraMonthlyBudget?: number }.');
+  process.exit(1);
+}
 
 if (!data.debts || data.debts.length === 0) {
   console.error('No debts in data file. Add debts first.');
@@ -39,7 +50,11 @@ const debts: Debt[] = data.debts.map((d, i) => ({
 }));
 
 const extra = data.extraMonthlyBudget ?? 0;
-const strategy = (process.argv[2] as 'avalanche' | 'snowball') || 'avalanche';
+const allowedStrategies = ['avalanche', 'snowball', 'minimum-only'] as const;
+const input = process.argv[2];
+const strategy = allowedStrategies.includes(input as typeof allowedStrategies[number])
+  ? (input as typeof allowedStrategies[number])
+  : 'avalanche';
 const result = runSimulation(debts, extra, strategy);
 
 // Find payoff month for each debt
