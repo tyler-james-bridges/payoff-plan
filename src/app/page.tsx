@@ -15,6 +15,7 @@ import { BalanceChart } from '@/components/charts/balance-chart';
 import { InterestPrincipalChart } from '@/components/charts/interest-principal-chart';
 import { DataPortability } from '@/components/data-portability';
 import { DarkModeToggle } from '@/components/dark-mode-toggle';
+import Link from 'next/link';
 
 export default function Home() {
   const hydrated = usePersistence();
@@ -45,6 +46,12 @@ export default function Home() {
           </p>
         </div>
         <div className="flex items-center gap-2">
+          <Link
+            href="/subscriptions"
+            className="inline-flex items-center rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
+          >
+            Find Extra Money
+          </Link>
           <DataPortability />
           <DarkModeToggle />
         </div>
