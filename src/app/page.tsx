@@ -1,7 +1,7 @@
 'use client';
 
 import { usePayoffStore } from '@/lib/store';
-import { usePersistence } from '@/hooks/use-persistence';
+import { useHydrated } from '@/app/providers';
 import { useSimulation } from '@/hooks/use-simulation';
 import { useComparison } from '@/hooks/use-comparison';
 import { DebtForm } from '@/components/debt-form/debt-form';
@@ -18,7 +18,7 @@ import { DarkModeToggle } from '@/components/dark-mode-toggle';
 import Link from 'next/link';
 
 export default function Home() {
-  const hydrated = usePersistence();
+  const hydrated = useHydrated();
   const debts = usePayoffStore((s) => s.plan.debts);
   const addDebt = usePayoffStore((s) => s.addDebt);
   const simulation = useSimulation();
