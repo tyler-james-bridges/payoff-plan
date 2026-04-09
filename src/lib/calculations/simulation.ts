@@ -67,8 +67,8 @@ export function runSimulation(
         state.balance = 0;
         state.paidOff = true;
         payoffOrder.push(state.debt.id);
-        // Freed minimum rolls into extra pool for remaining debts
-        freedPool += state.debt.minimumPayment;
+        // Only unused portion of the minimum is available this month.
+        freedPool += Math.max(0, state.debt.minimumPayment - minPayment);
       }
     }
 
